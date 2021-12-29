@@ -1,0 +1,77 @@
+
+version: '3.7'
+services:
+
+  mysql:
+    container_name: mysql
+    image: mysql:5.7.20
+#    image: mysql:8.0
+    environment:
+#        MYSQL_USER: tony
+#        MYSQL_PASSWORD: gsm1800
+        MYSQL_ROOT_PASSWORD: 123456
+#        MYSQL_DATABASE: flyway_demo
+    volumes:
+     - ./mysqldata:/var/lib/mysql
+    restart: always
+    ports:
+     - 3306:3306
+    networks:
+        - jira_vlan
+  db.admin:
+    image: phpmyadmin/phpmyadmin:latest
+    environment:
+        PMA_ARBITRARY: 1
+    container_name: db.admin
+    privileged: true
+    networks:
+        - jira_vlan
+    restart: always
+    ports:
+        - 88:80
+
+  jira:
+    build: ./jira-software/
+    image: jira-software:8.12.2
+    container_name: jira
+    networks:
+        - jira_vlan
+    hostname: jira
+    init: true
+    volumes:
+        - ./jira-software/JIRA_HOME_data:/var/atlassian/jira
+        - ./jira-software/JIRA_log_data:/opt/atlassian/jira/logs
+        - /etc/localtime:/etc/localtime:ro
+    restart: always
+    ports:
+        - 9090:8080
+    logging:
+      driver: json-file
+      options:
+        max-file: '3'
+        max-size: 100m
+
+  confluence:
+    build: ./confluence/
+    image: atlassian-confluence:7.13.1
+    container_name: confluence
+    networks:
+        - jira_vlan
+    hostname: confluence
+    init: true
+    volumes:
+        - ./confluence/CONF_HOME_data:/var/atlassian/confluence
+        - ./confluence/CONF_log_data:/opt/atlassian/confluence/logs
+        - /etc/localtime:/etc/localtime:ro
+    restart: always
+    ports:
+        - '8090:8090'
+        - '8091:8091'
+    logging:
+      driver: json-file
+      options:
+        max-file: '10'
+        max-size: 5m
+
+networks:
+  jira_vlan:
