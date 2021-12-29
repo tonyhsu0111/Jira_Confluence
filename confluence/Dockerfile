@@ -59,6 +59,8 @@ VOLUME ["/var/atlassian/confluence", "/opt/atlassian/confluence/logs"]
 WORKDIR /var/atlassian/confluence
 
 COPY conf/docker-entrypoint.sh /
+RUN  chmod a+x /docker-entrypoint.sh
+
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # Run Atlassian Confluence as a foreground process by default.

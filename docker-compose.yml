@@ -12,7 +12,7 @@ services:
         MYSQL_ROOT_PASSWORD: 123456
 #        MYSQL_DATABASE: flyway_demo
     volumes:
-     - ./mysqldata:/var/lib/mysql
+     - ./data/mysql_data:/var/lib/mysql
     restart: always
     ports:
      - 3306:3306
@@ -39,8 +39,8 @@ services:
     hostname: jira
     init: true
     volumes:
-        - ./jira-software/JIRA_HOME_data:/var/atlassian/jira
-        - ./jira-software/JIRA_log_data:/opt/atlassian/jira/logs
+        - ./data/JIRA_HOME_data:/var/atlassian/jira
+        - ./data/JIRA_log_data:/opt/atlassian/jira/logs
         - /etc/localtime:/etc/localtime:ro
     restart: always
     ports:
@@ -60,8 +60,8 @@ services:
     hostname: confluence
     init: true
     volumes:
-        - ./confluence/CONF_HOME_data:/var/atlassian/confluence
-        - ./confluence/CONF_log_data:/opt/atlassian/confluence/logs
+        - ./data/CONF_HOME_data:/var/atlassian/confluence
+        - ./data/CONF_log_data:/opt/atlassian/confluence/logs
         - /etc/localtime:/etc/localtime:ro
     restart: always
     ports:
