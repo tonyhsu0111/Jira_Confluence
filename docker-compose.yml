@@ -9,10 +9,10 @@ services:
     environment:
 #        MYSQL_USER: tony
 #        MYSQL_PASSWORD: gsm1800
-        MYSQL_ROOT_PASSWORD: 123456
+        MYSQL_ROOT_PASSWORD: 1qasde32
 #        MYSQL_DATABASE: flyway_demo
     volumes:
-     - ./data/mysql_data:/var/lib/mysql
+     - ./data/MYSQL_data:/var/lib/mysql
     restart: always
     ports:
      - 3306:3306
@@ -22,6 +22,7 @@ services:
     image: phpmyadmin/phpmyadmin:latest
     environment:
         PMA_ARBITRARY: 1
+        PMA_HOST: mysql
     container_name: db.admin
     privileged: true
     networks:
