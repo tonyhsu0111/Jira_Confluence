@@ -31,38 +31,43 @@ services:
     ports:
         - 88:80
 
-  jira:
-    build: ./jira-software/
-    image: jira-software:8.12.2
-    container_name: jira
-    networks:
-        - jira_vlan
-    hostname: jira
-    init: true
-    volumes:
-        - ./data/JIRA_HOME_data:/var/atlassian/jira
-        - ./data/JIRA_log_data:/opt/atlassian/jira/logs
-        - /etc/localtime:/etc/localtime:ro
-    restart: always
-    ports:
-        - 9090:8080
-    logging:
-      driver: json-file
-      options:
-        max-file: '3'
-        max-size: 100m
+#   jira:
+#     build: ./jira-software/
+#     image: jira-software:8.12.2
+#     container_name: jira
+#     networks:
+#         - jira_vlan
+#     hostname: jira
+#     init: true
+#     volumes:
+#         - ./data/JIRA_HOME_data:/var/atlassian/jira
+#         - ./data/JIRA_log_data:/opt/atlassian/jira/logs
+#         - /etc/localtime:/etc/localtime:ro
+#     restart: always
+#     ports:
+#         - 9090:8080
+#     logging:
+#       driver: json-file
+#       options:
+#         max-file: '3'
+#         max-size: 100m
 
   confluence:
-    build: ./confluence/
-    image: atlassian-confluence:7.13.1
+    build:
+      context: ./confluence/
+      dockerfile: Dockerfile.ubuntu
+    #build: ./confluence/
+    image: myatlassian-confluence:7.13.1
+    #image: atlassian/confluence:7.13-ubuntu
     container_name: confluence
     networks:
         - jira_vlan
     hostname: confluence
     init: true
     volumes:
-        - ./data/CONF_HOME_data:/var/atlassian/confluence
-        - ./data/CONF_log_data:/opt/atlassian/confluence/logs
+        - ./data/CONF_HOME_data:/var/atlassian/application-data/confluence
+#        - ./data/CONF_HOME_data:/var/atlassian/confluence
+#        - ./data/CONF_log_data:/opt/atlassian/confluence/logs
         - /etc/localtime:/etc/localtime:ro
     restart: always
     ports:

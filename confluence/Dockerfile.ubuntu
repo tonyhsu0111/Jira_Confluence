@@ -1,0 +1,9 @@
+FROM atlassian/confluence:7.13-ubuntu
+
+
+# Install Atlassian Confluence and helper tools and setup initial home
+# directory structure.
+COPY conf/atlassianctl_linux_amd64 /usr/local/bin/atlassianctl
+COPY conf/mysql-connector-java-5.1.49.jar /opt/atlassian/confluence/confluence/WEB-INF/lib/
+
+

@@ -1,4 +1,11 @@
 # example
+# mysql sql
+```
+CREATE DATABASE confluence CHARACTER SET utf8 COLLATE utf8_bin;
+CREATE DATABASE jira CHARACTER SET utf8 COLLATE utf8_bin;
+GRANT ALL PRIVILEGES ON confluence.* TO 'confluenceuser'@'%' IDENTIFIED BY '1qasde32';
+grant all on jira.* to 'jira'@'%' identified by '1qasde32';
+```
 
 ## Jira Mysql Setting
 ```
@@ -29,7 +36,12 @@ vim /$pwd/JIRA_HOME_data/dbconfig.xml
 
 ## Confluence Setup Database SSL Warring Config to false
 ```
+docker cp  mysql-connector-java-5.1.49.jar confluence:/opt/atlassian/confluence/confluence/WEB-INF/lib/
+docker restart confluence
+
 /$pwd/CONF_HOME_data/confluence.cfg.xml
 jdbc:mysql://$IP:3306/confluence改为jdbc:mysql://$IP:3306/confluence?useSSL=false
+jdbc:mysql://mysql:3306/confluence?useSSL=false&sessionVariables=tx_isolation='READ-COMMITTED'
+
 ```
 改完后重启下容器即可
