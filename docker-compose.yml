@@ -13,6 +13,7 @@ services:
 #        MYSQL_DATABASE: flyway_demo
     volumes:
      - ./data/MYSQL_data:/var/lib/mysql
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
     restart: always
     ports:
      - 3306:3306
